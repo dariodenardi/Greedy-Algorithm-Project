@@ -3,7 +3,7 @@
 void tokenize(std::string const &str, const char delim, std::vector<std::string> &out);
 void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * classes);
 
-int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &classes, int * &indexes, int * &setups, int * &b) {
+int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &profitsKnapsack, int * &classes, int * &indexes, int * &setups, int * &b) {
 
 	char path[200];
 	strcpy_s(path, "instances/");
@@ -35,17 +35,22 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 			if (strcmp("j items", out[0].c_str()) == 0) {
 				n = strtol(out[1].c_str(), NULL, 10);
 				nFind = true;
-				weights = (int *)malloc(sizeof(int) * n);
 				classes = (int *)malloc(sizeof(int) * n);
-				if (mFind && nFind)
+				if (mFind && nFind) {
 					profits = (int *)malloc(sizeof(int) * n * m);
+					profitsKnapsack = (int *)malloc(sizeof(int) * n * m);
+					weights = (int *)malloc(sizeof(int) * n * m);
+				}
 			}
 			else if (strcmp("k knapsacks", out[0].c_str()) == 0) {
 				m = strtol(out[1].c_str(), NULL, 10);
 				mFind = true;
 				capacities = (int *)malloc(sizeof(int) * m);
-				if (mFind && nFind)
+				if (mFind && nFind) {
 					profits = (int *)malloc(sizeof(int) * n * m);
+					profitsKnapsack = (int *)malloc(sizeof(int) * n * m);
+					weights = (int *)malloc(sizeof(int) * n * m);
+				}
 			}
 			else if (strcmp("r classes", out[0].c_str()) == 0) {
 				r = strtol(out[1].c_str(), NULL, 10);
@@ -61,6 +66,8 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 					tokenize(line, delim, out2);
 
 					weights[nCheck++] = strtol(out2[1].c_str(), NULL, 10);
+					for (int i = 1; i < m; i++)
+						weights[nCheck - 1 + n*i] = strtol(out2[1].c_str(), NULL, 10);
 
 					if (nCheck != strtol(out2[0].c_str(), NULL, 10))
 						return 2;
@@ -99,6 +106,7 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 					tokenize(line, delim, out2);
 
 					profits[nCheck++ + mCheck*n] = strtol(out2[2].c_str(), NULL, 10);
+					profitsKnapsack[nCheck - 1 + mCheck * n] = strtol(out2[1].c_str(), NULL, 10);
 
 					if (nCheck != strtol(out2[0].c_str(), NULL, 10))
 						return 2;
@@ -174,7 +182,7 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 					std::vector<std::string> out2;
 					tokenize(line, delim, out2);
 
-					setups[rCheck++] = strtol(out2[1].c_str(), NULL, 10);
+					b[rCheck++] = strtol(out2[1].c_str(), NULL, 10);
 
 					if (rCheck != strtol(out2[0].c_str(), NULL, 10))
 						return 2;
@@ -240,4 +248,53 @@ void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * 
 
 	} // for r
 
+}
+
+void printInstance(int n, int m, int r, int * weights, int * capacities, int * profits, int * profitsKnapsack, int * classes, int * indexes, int * setups, int * b) {
+	std::cout << "n=" << n << std::endl;
+	std::cout << "m=" << m << std::endl;
+	std::cout << "r=" << r << std::endl;
+
+	std::cout << "profits" << std::endl;
+	for (int i = 0; i < n*m; i++)
+		std::cout << profits[i] << "\t" << profitsKnapsack[i] << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "weights" << std::endl;
+	for (int i = 0; i < n*m; i++)
+		std::cout << weights[i] << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "capacities" << std::endl;
+	for (int i = 0; i < m; i++)
+		std::cout << capacities[i] << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "setups" << std::endl;
+	for (int i = 0; i < r; i++)
+		std::cout << setups[i] << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "b" << std::endl;
+	for (int i = 0; i < r; i++)
+		std::cout << b[i] << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "classes" << std::endl;
+	for (int k = 0; k < r; k++) {
+		std::cout << "class " << k + 1 << std::endl;
+		for (int j = 0; j < n; j++) {
+
+			int indexes_prev = k > 0 ? indexes[k - 1] : 0;
+			for (int z = 0; z < indexes[k] - indexes_prev; z++) {
+
+				if (classes[z + indexes_prev] == j) {
+					std::cout << classes[z + indexes_prev] << std::endl;
+				}
+			}
+
+		} // j (items)
+
+		std::cout << std::endl;
+	} // k (items)
 }

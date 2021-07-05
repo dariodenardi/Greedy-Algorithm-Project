@@ -1,39 +1,32 @@
 #include "SORT.h"
 
-void merge(int v[], int i1, int i2, int fine, int vout[]);
+void scambia(int *a, int *b);
 
-void mergeSort(int v[], int first, int last, int vout[]) {
-	int mid;
+void bubbleSort(int v[], int v2[], int n, int v3[]) {
+	int i;
+	int ordinato = 0;
 
-	if (first < last) {
-		mid = (last + first) / 2;
-		mergeSort(v, first, mid, vout);
-		mergeSort(v, mid + 1, last, vout);
-		merge(v, first, mid + 1, last, vout);
+	while (n > 1 && ordinato == 0) {
+		ordinato = 1;
+		for (i = 0; i < n - 1; i++) {
+
+			if (v[i] < v[i + 1]) {
+
+				scambia(&v[i], &v[i + 1]);
+				scambia(&v2[i], &v2[i + 1]);
+				scambia(&v3[i], &v3[i + 1]);
+				ordinato = 0;
+
+			}
+
+		}
+		n--;
 	}
 }
 
-void merge(int v[], int i1, int i2, int fine, int vout[]) {
-	int i = i1, j = i2, k = i1;
-
-	while (i <= i2 - 1 && j <= fine) {
-		if (v[i] < v[j])
-			vout[k] = v[i++];
-		else
-			vout[k] = v[j++];
-		k++;
-	}
-
-	while (i <= i2 - 1) { 
-		vout[k] = v[i++];
-		k++;
-	}
-	
-	while (j <= fine) { 
-		vout[k] = v[j++];
-		k++;
-	}
-	
-	for (i = i1; i <= fine; i++)
-		v[i] = vout[i];
+void scambia(int *a, int *b)
+{
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
 }

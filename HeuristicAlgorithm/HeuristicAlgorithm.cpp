@@ -29,6 +29,7 @@ int main(int argc, char **argv)
 	int r; // number of subsets
 	int *b = &num; // item can be assign at most to bk knapsacks // num points to somewhere random
 	int *profits = &num; // array for linear profit term
+	int *profitsKnapsack = &num; // array for linear profit term
 	int *weights = &num; // array of weights
 	int *capacities = &num; // array of knapsack capacities
 	int *setups = &num; // array of setup
@@ -36,59 +37,15 @@ int main(int argc, char **argv)
 	int *indexes = &num; // array of indexes
 
 	// read file
-	int status = readInstance(istance_name, n, m, r, weights, capacities, profits, classes, indexes, setups, b);
+	int status = readInstance(istance_name, n, m, r, weights, capacities, profits, profitsKnapsack, classes, indexes, setups, b);
 	if (status)
 		std::cout << "File not read correctly or wrong format" << std::endl;
 
-	std::cout << n << std::endl;
-	std::cout << m << std::endl;
-	std::cout << r << std::endl;
-
-	std::cout << "profits" << std::endl;
-	for (int i = 0; i < n*m; i++) {
-
-		std::cout << profits[i] << std::endl;
-
-	}
-	std::cout << "weights" << std::endl;
-	for (int i = 0; i < n; i++) {
-
-		std::cout << weights[i] << std::endl;
-
-	}
-	std::cout << "capacities" << std::endl;
-	for (int i = 0; i < m; i++) {
-
-		std::cout << capacities[i] << std::endl;
-
-	}
-	std::cout << "setups" << std::endl;
-	for (int i = 0; i < m; i++) {
-
-		std::cout << setups[i] << std::endl;
-
-	}
-
-	std::cout << "classes" << std::endl;
-	for (int k = 0; k < r; k++) {
-
-		for (int j = 0; j < n; j++) {
-
-			int indexes_prev = k > 0 ? indexes[k - 1] : 0;
-			for (int z = 0; z < indexes[k] - indexes_prev; z++) {
-
-				if (classes[z + indexes_prev] == j) {
-					std::cout << classes[z + indexes_prev] << std::endl;
-				}
-			}
-
-		} // j (items)
-
-		std::cout << std::endl;
-	} // k (items)
+	printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, classes, indexes, setups, b);
 
 	if (q == 1) {
-
+		bubbleSort(profits, profitsKnapsack, n*2, weights);
+		printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, classes, indexes, setups, b);
 	}
 	else if (q == 2) {
 

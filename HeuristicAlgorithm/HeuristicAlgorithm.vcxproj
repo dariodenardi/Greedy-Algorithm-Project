@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GREEDY.cpp" />
     <ClCompile Include="HeuristicAlgorithm.cpp" />
     <ClCompile Include="RD_INSTANCE.cpp" />
     <ClCompile Include="SORT.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GREEDY.h" />
     <ClInclude Include="RD_INSTANCE.h" />
     <ClInclude Include="SORT.h" />
   </ItemGroup>
