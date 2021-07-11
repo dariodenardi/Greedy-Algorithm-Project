@@ -155,11 +155,13 @@
     <ClCompile Include="HeuristicAlgorithm.cpp" />
     <ClCompile Include="RD_INSTANCE.cpp" />
     <ClCompile Include="SORT.cpp" />
+    <ClCompile Include="UTILITY.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GREEDY.h" />
     <ClInclude Include="RD_INSTANCE.h" />
     <ClInclude Include="SORT.h" />
+    <ClInclude Include="UTILITY.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

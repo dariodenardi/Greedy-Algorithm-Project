@@ -3,7 +3,7 @@
 void tokenize(std::string const &str, const char delim, std::vector<std::string> &out);
 void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * classes);
 
-int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &profitsKnapsack, int * &classes, int * &indexes, int * &setups, int * &b) {
+int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &profitsKnapsack, int * &profitsItem, int * &classes, int * &indexes, int * &setups, int * &b) {
 
 	char path[200];
 	strcpy_s(path, "instances/");
@@ -39,6 +39,7 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 				if (mFind && nFind) {
 					profits = (int *)malloc(sizeof(int) * n * m);
 					profitsKnapsack = (int *)malloc(sizeof(int) * n * m);
+					profitsItem = (int *)malloc(sizeof(int) * n * m);
 					weights = (int *)malloc(sizeof(int) * n * m);
 				}
 			}
@@ -49,6 +50,7 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 				if (mFind && nFind) {
 					profits = (int *)malloc(sizeof(int) * n * m);
 					profitsKnapsack = (int *)malloc(sizeof(int) * n * m);
+					profitsItem = (int *)malloc(sizeof(int) * n * m);
 					weights = (int *)malloc(sizeof(int) * n * m);
 				}
 			}
@@ -106,12 +108,14 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 					tokenize(line, delim, out2);
 
 					profits[nCheck++ + mCheck*n] = strtol(out2[2].c_str(), NULL, 10);
-					profitsKnapsack[nCheck - 1 + mCheck * n] = strtol(out2[1].c_str(), NULL, 10);
 
 					if (nCheck != strtol(out2[0].c_str(), NULL, 10))
 						return 2;
 					if (mCheck+1 != strtol(out2[1].c_str(), NULL, 10))
 						return 2;
+
+					profitsKnapsack[nCheck - 1 + mCheck * n] = mCheck;
+					profitsItem[nCheck - 1 + mCheck * n] = nCheck - 1;
 
 					if (nCheck == n && (mCheck+1) != m) {
 						nCheck = 0;
@@ -250,51 +254,31 @@ void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * 
 
 }
 
-void printInstance(int n, int m, int r, int * weights, int * capacities, int * profits, int * profitsKnapsack, int * classes, int * indexes, int * setups, int * b) {
+void printInstance(int n, int m, int r, int * weights, int * capacities, int * profits, int * profitsKnapsack, int * profitsItem, int * classes, int * indexes, int * setups, int * b) {
 	std::cout << "n=" << n << std::endl;
 	std::cout << "m=" << m << std::endl;
 	std::cout << "r=" << r << std::endl;
 
-	std::cout << "profits" << std::endl;
-	for (int i = 0; i < n*m; i++)
-		std::cout << profits[i] << "\t" << profitsKnapsack[i] << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "weights" << std::endl;
+	std::cout << "j\t" << "i\t" << "p(i,j)\t" << "w(i)\t" << "s(k)" << std::endl;
+	std::cout << "----------------------------------------" << std::endl;
 	for (int i = 0; i < n*m; i++)
-		std::cout << weights[i] << std::endl;
+		std::cout << profitsItem[i] + 1 << "\t" << profitsKnapsack[i] + 1 << "\t" << profits[i] << "\t" << weights[i] << "\t" << findClass(profitsItem[i], classes, indexes, r) + 1 << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "capacities" << std::endl;
+	std::cout << "c(i)" << std::endl;
 	for (int i = 0; i < m; i++)
 		std::cout << capacities[i] << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "setups" << std::endl;
+	std::cout << "s(k)" << std::endl;
 	for (int i = 0; i < r; i++)
 		std::cout << setups[i] << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "b" << std::endl;
+	std::cout << "b(k)" << std::endl;
 	for (int i = 0; i < r; i++)
 		std::cout << b[i] << std::endl;
 	std::cout << std::endl;
-
-	std::cout << "classes" << std::endl;
-	for (int k = 0; k < r; k++) {
-		std::cout << "class " << k + 1 << std::endl;
-		for (int j = 0; j < n; j++) {
-
-			int indexes_prev = k > 0 ? indexes[k - 1] : 0;
-			for (int z = 0; z < indexes[k] - indexes_prev; z++) {
-
-				if (classes[z + indexes_prev] == j) {
-					std::cout << classes[z + indexes_prev] << std::endl;
-				}
-			}
-
-		} // j (items)
-
-		std::cout << std::endl;
-	} // k (items)
 }
