@@ -51,11 +51,11 @@ int main(int argc, char **argv)
 	printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
 
 	if (q == 1)
-		bubbleDecreasingSort(profits, profitsKnapsack, profitsItem, n * 2, weights);
+		decreasingSort(profits, profitsKnapsack, profitsItem, n * m, weights);
 	else if (q == 2)
-		bubbleDecreasingSort(profits, profitsKnapsack, profitsItem, weights, n * 2);
+		decreasingSort(profits, profitsKnapsack, profitsItem, weights, n * m);
 	else if (q == 3)
-		bubbleDecreasingSort(profits, profitsKnapsack, profitsItem, weights, setups, classes, indexes, m, n, r);
+		decreasingSort(profits, profitsKnapsack, profitsItem, weights, setups, classes, indexes, n * m, m, r);
 	else if (q == 4) {
 
 	}

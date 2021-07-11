@@ -3,76 +3,83 @@
 void replace(int *a, int *b);
 
 // attribute 1
-void bubbleDecreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int n, int weights[]) {
-	int i;
-	int ordinato = 0;
+void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int n, int weights[])
+{
+	int i, j, max_idx;
 
-	while (n > 1 && ordinato == 0) {
-		ordinato = 1;
-		for (i = 0; i < n - 1; i++) {
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n - 1; i++) {
 
-			if (profits[i] < profits[i + 1]) {
+		// Find the maximum item in unsorted array
+		max_idx = i;
+		for (j = i + 1; j < n; j++) {
 
-				replace(&profits[i], &profits[i + 1]);
-				replace(&profitsKnapsack[i], &profitsKnapsack[i + 1]);
-				replace(&profitsItem[i], &profitsItem[i + 1]);
-				replace(&weights[i], &weights[i + 1]);
-				ordinato = 0;
-
-			}
-
+			if (profits[j] > profits[max_idx])
+				max_idx = j;
 		}
-		n--;
+
+		// Swap the found maximum item
+		// with the first item
+		replace(&profits[max_idx], &profits[i]);
+		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
+		replace(&profitsItem[max_idx], &profitsItem[i]);
+		replace(&weights[max_idx], &weights[i]);
 	}
 }
 
 // attribute 2
-void bubbleDecreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n) {
-	int i;
-	int ordinato = 0;
+void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n)
+{
+	int i, j, max_idx;
 
-	while (n > 1 && ordinato == 0) {
-		ordinato = 1;
-		for (i = 0; i < n - 1; i++) {
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n - 1; i++) {
 
-			if (profits[i] / weights[i] < profits[i + 1] / weights[i + 1]) {
-
-				replace(&profits[i], &profits[i + 1]);
-				replace(&profitsKnapsack[i], &profitsKnapsack[i + 1]);
-				replace(&profitsItem[i], &profitsItem[i + 1]);
-				replace(&weights[i], &weights[i + 1]);
-				ordinato = 0;
-
-			}
-
+		// Find the maximum item in unsorted array
+		max_idx = i;
+		for (j = i + 1; j < n; j++) {
+			double div1 = (double)profits[j] / weights[j];
+			double div2 = (double)profits[max_idx] / weights[max_idx];
+			if (div1 > div2)
+				max_idx = j;
 		}
-		n--;
+
+		// Swap the found maximum item
+		// with the first item
+		replace(&profits[max_idx], &profits[i]);
+		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
+		replace(&profitsItem[max_idx], &profitsItem[i]);
+		replace(&weights[max_idx], &weights[i]);
 	}
 }
 
 // attribute 3
-void bubbleDecreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int m, int n, int r) {
-	int i;
-	int ordinato = 0;
+void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int m, int r)
+{
+	int i, j, max_idx;
 
-	while (n > 1 && ordinato == 0) {
-		ordinato = 1;
-		for (i = 0; i < n - 1; i++) {
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n - 1; i++) {
 
-			int setup1 = findClass(i, classes, indexes, r);
-			int setup2 = findClass(i + 1, classes, indexes, r);
-			if (profits[i] / ((weights[i] + setup1) / m) < profits[i + 1] / ((weights[i+ 1] + setup2) / m)) {
+		// Find the maximum item in unsorted array
+		max_idx = i;
+		for (j = i + 1; j < n; j++) {
 
-				replace(&profits[i], &profits[i + 1]);
-				replace(&profitsKnapsack[i], &profitsKnapsack[i + 1]);
-				replace(&profitsItem[i], &profitsItem[i + 1]);
-				replace(&weights[i], &weights[i + 1]);
-				ordinato = 0;
+			int class1 = findClass(j, classes, indexes, r);
+			int class2 = findClass(max_idx, classes, indexes, r);
 
-			}
-
+			double div1 = (double)profits[j] / ((weights[j] + setups[class1]) / m);
+			double div2 = (double)profits[max_idx] / ((weights[max_idx] + setups[class2]) / m);
+			if (div1 > div2)
+				max_idx = j;
 		}
-		n--;
+
+		// Swap the found maximum item
+		// with the first item
+		replace(&profits[max_idx], &profits[i]);
+		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
+		replace(&profitsItem[max_idx], &profitsItem[i]);
+		replace(&weights[max_idx], &weights[i]);
 	}
 }
 

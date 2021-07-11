@@ -1,6 +1,6 @@
 #include "GREEDY.h"
 
-bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int setupItem, int classes[], int indexes[], int r);
+bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r);
 bool isItemAlreadyAssigned(int n, bool f[], int item, int profitsItem[]);
 
 int solve(int n, int m, int r, int * weights, int * capacities, int * profits, int * profitsKnapsack, int * profitsItem, int * classes, int * indexes, int * setups, int * b, bool * &f) {
@@ -20,10 +20,10 @@ int solve(int n, int m, int r, int * weights, int * capacities, int * profits, i
 		if (!itemIsPresent) {
 
 			// find class of the item that we want add
-			int setup = findClass(profitsItem[j], classes, indexes, r);
+			int class1 = findClass(profitsItem[j], classes, indexes, r);
 
 			// if setup is already present in knapsack
-			bool setupIsPresent = isClassAlreadyPresentInKnapsack(j, f, profitsKnapsack[j], profitsKnapsack, profitsItem, setup, classes, indexes, r);
+			bool setupIsPresent = isClassAlreadyPresentInKnapsack(j, f, profitsKnapsack[j], profitsKnapsack, profitsItem, class1, classes, indexes, r);
 
 			if (setupIsPresent) {
 
@@ -38,12 +38,12 @@ int solve(int n, int m, int r, int * weights, int * capacities, int * profits, i
 			}
 			else {
 				// check if in b vector there is a free slot
-				if (b[setup] > 0) {
+				if (b[class1] > 0) {
 
-					if (capacities[profitsKnapsack[j]] - weights[j] - setups[setup] > 0) {
+					if (capacities[profitsKnapsack[j]] - weights[j] - setups[class1] > 0) {
 
-						capacities[profitsKnapsack[j]] = capacities[profitsKnapsack[j]] - weights[j] - setups[setup];
-						b[setup] -= 1;
+						capacities[profitsKnapsack[j]] = capacities[profitsKnapsack[j]] - weights[j] - setups[class1];
+						b[class1] -= 1;
 
 						result += profits[j];
 						// item assigned
@@ -60,13 +60,13 @@ int solve(int n, int m, int r, int * weights, int * capacities, int * profits, i
 	return result;
 }
 
-bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int setupItem, int classes[], int indexes[], int r) {
+bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r) {
 
 	for (int j = 0; j < n; j++) {
 		// only if fj item is assigned
 		if (f[j] == true && knapsack == profitsKnapsack[j]) {
-			int setup = findClass(profitsItem[j], classes, indexes, r);
-			if (setup == setupItem)
+			int class1 = findClass(profitsItem[j], classes, indexes, r);
+			if (class1 == classItem)
 				return true;
 		}
 		
