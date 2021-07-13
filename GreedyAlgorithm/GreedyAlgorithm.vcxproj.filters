@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HeuristicAlgorithm.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
     <ClCompile Include="SORT.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
@@ -28,6 +25,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="UTILITY.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="GreedyAlgorithm.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>

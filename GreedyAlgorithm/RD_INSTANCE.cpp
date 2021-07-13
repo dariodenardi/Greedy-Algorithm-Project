@@ -254,7 +254,7 @@ void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * 
 
 }
 
-void printInstance(int n, int m, int r, int * weights, int * capacities, int * profits, int * profitsKnapsack, int * profitsItem, int * classes, int * indexes, int * setups, int * b) {
+void printInstance(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[]) {
 	std::cout << "n=" << n << std::endl;
 	std::cout << "m=" << m << std::endl;
 	std::cout << "r=" << r << std::endl;

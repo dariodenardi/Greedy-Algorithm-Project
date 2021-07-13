@@ -3,14 +3,9 @@
 bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r);
 bool isItemAlreadyAssigned(int n, bool f[], int item, int profitsItem[]);
 
-int solve(int n, int m, int r, int * weights, int * capacities, int * profits, int * profitsKnapsack, int * profitsItem, int * classes, int * indexes, int * setups, int * b, bool * &f) {
+int solve(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[], bool f[]) {
 
 	int result = 0;
-	
-	// fj vector
-	f = (bool *)malloc(sizeof(bool) * n * m);
-	for (int j = 0; j < n*m; j++)
-		f[j] = 0;
 
 	for (int j = 0; j < n*m; j++) {
 

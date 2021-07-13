@@ -22,8 +22,9 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AAEC1664-E82B-45F7-B663-F24D2E2BA4E1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>HeuristicAlgorithm</RootNamespace>
+    <RootNamespace>GreedyAlgorithm</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>GreedyAlgorithm</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -152,7 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GREEDY.cpp" />
-    <ClCompile Include="HeuristicAlgorithm.cpp" />
+    <ClCompile Include="GreedyAlgorithm.cpp" />
     <ClCompile Include="RD_INSTANCE.cpp" />
     <ClCompile Include="SORT.cpp" />
     <ClCompile Include="UTILITY.cpp" />

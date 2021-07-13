@@ -15,3 +15,10 @@ int findClass(int item, int classes[], int indexes[], int r) {
 
 	return class1;
 }
+
+void copyArray(int oldArray[], int newArray[], int size) {
+
+	for (int i = 0; i < size; i++)
+		newArray[i] = oldArray[i];
+
+}
