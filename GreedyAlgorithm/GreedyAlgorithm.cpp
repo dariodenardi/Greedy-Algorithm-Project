@@ -28,7 +28,6 @@ int main(int argc, char **argv)
 	std::cout << std::endl;
 
 	int num = 25;
-
 	// data for GMKP instance
 	int n; // number of objects
 	int m; // number of knapsacks
@@ -57,7 +56,7 @@ int main(int argc, char **argv)
 	int *bCopy = (int *)malloc(sizeof(int) * r);
 	int *capacitiesCopy = (int *)malloc(sizeof(int) * m);
 
-	// for all sorts
+	// for all sorts entered in input
 	for (int i = 0; i < argc - 2; i++) {
 
 		if (q[i] == 1)
