@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CHECK_CONS.cpp" />
     <ClCompile Include="GREEDY.cpp" />
     <ClCompile Include="GreedyAlgorithm.cpp" />
     <ClCompile Include="RD_INSTANCE.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="UTILITY.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CHECK_CONS.h" />
     <ClInclude Include="GREEDY.h" />
     <ClInclude Include="RD_INSTANCE.h" />
     <ClInclude Include="SORT.h" />

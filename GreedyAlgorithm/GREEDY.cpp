@@ -1,9 +1,9 @@
 #include "GREEDY.h"
 
-bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r);
-bool isItemAlreadyAssigned(int n, bool f[], int item, int profitsItem[]);
+bool isClassAlreadyPresentInKnapsack(int n, double f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r);
+bool isItemAlreadyAssigned(int n, double f[], int item, int profitsItem[]);
 
-int solve(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[], bool f[]) {
+int solve(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[], double f[]) {
 
 	int result = 0;
 
@@ -55,11 +55,11 @@ int solve(int n, int m, int r, int weights[], int capacities[], int profits[], i
 	return result;
 }
 
-bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r) {
+bool isClassAlreadyPresentInKnapsack(int n, double f[], int knapsack, int profitsKnapsack[], int profitsItem[], int classItem, int classes[], int indexes[], int r) {
 
 	for (int j = 0; j < n; j++) {
 		// only if fj item is assigned
-		if (f[j] == true && knapsack == profitsKnapsack[j]) {
+		if (f[j] == 1 && knapsack == profitsKnapsack[j]) {
 			int class1 = findClass(profitsItem[j], classes, indexes, r);
 			if (class1 == classItem)
 				return true;
@@ -70,7 +70,7 @@ bool isClassAlreadyPresentInKnapsack(int n, bool f[], int knapsack, int profitsK
 	return false;
 }
 
-bool isItemAlreadyAssigned(int n, bool f[], int item, int profitsItem[]) {
+bool isItemAlreadyAssigned(int n, double f[], int item, int profitsItem[]) {
 
 	for (int j = 0; j < n; j++) {
 
