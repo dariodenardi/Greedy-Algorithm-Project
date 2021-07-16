@@ -1,5 +1,6 @@
 #include "SORT.h"
 
+void findMaxValue(int& max1, int& max2, int i, int profits[], int n, int m);
 void replace(int *a, int *b);
 void replace(double *a, double *b);
 
@@ -29,7 +30,7 @@ void ascendingSort(int profits[], int profitsKnapsack[], int profitsItem[], int 
 }
 
 // attribute 1
-void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int n, int m, int weights[])
+void decreasingSort1(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n, int m)
 {
 	int i, j, max_idx;
 
@@ -38,7 +39,7 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 
 		// Find the maximum item in unsorted array
 		max_idx = i;
-		for (j = i + 1; j < (n*m); j++) {
+		for (j = i + 1; j < n*m; j++) {
 
 			if (profits[j] > profits[max_idx])
 				max_idx = j;
@@ -54,7 +55,7 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 }
 
 // attribute 2
-void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n, int m)
+void decreasingSort2(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n, int m)
 {
 	int i, j, max_idx;
 
@@ -63,7 +64,7 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 
 		// Find the maximum item in unsorted array
 		max_idx = i;
-		for (j = i + 1; j < (n*m); j++) {
+		for (j = i + 1; j < n*m; j++) {
 			double div1 = (double)profits[j] / weights[j];
 			double div2 = (double)profits[max_idx] / weights[max_idx];
 			if (div1 > div2)
@@ -80,7 +81,7 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 }
 
 // attribute 3
-void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int m, int r)
+void decreasingSort3(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int m, int r)
 {
 	int i, j, max_idx;
 
@@ -89,7 +90,7 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 
 		// Find the maximum item in unsorted array
 		max_idx = i;
-		for (j = i + 1; j < (n*m); j++) {
+		for (j = i + 1; j < n*m; j++) {
 
 			int class1 = findClass(profitsItem[j], classes, indexes, r);
 			int class2 = findClass(profitsItem[max_idx], classes, indexes, r);
@@ -110,23 +111,23 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 }
 
 // attribute 4
-void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n, int m, int r) {
-	int i, k, j, max_idx, max_idx2;
+void decreasingSort4(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n, int m) {
+	int i, k, j, max_idx, max_idx2, max1, max2;
 
 	std::cout << "profit1" << "\t" << "profit2" << "\t" << "diff" << "\t" << "item" << std::endl;
 	// One by one move boundary of unsorted subarray
 	for (i = 0; i < (n*m) - 1; i++) {
 
+		findMaxValue(max1, max2, i, profits, n, m);
+
 		// Find the maximum item in unsorted array
 		max_idx = i;
 		max_idx2 = i;
-		for (j = i + 1; j < (n*m); j++) {
+		for (j = i + 1; j < n*m; j++) {
 
-			if (profits[j] > profits[max_idx]) {
-				max_idx2 = max_idx;
-				max_idx = j;
-			} else if (profits[j] > profits[max_idx2]) {
-				max_idx2 = j;
+			if (profits[max1] - profits[max2] > profits[max_idx] - profits[max_idx2]) {
+				max_idx = max1;
+				max_idx2 = max2;
 			}
 			
 		}
@@ -138,6 +139,24 @@ void decreasingSort(int profits[], int profitsKnapsack[], int profitsItem[], int
 		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
 		replace(&profitsItem[max_idx], &profitsItem[i]);
 		replace(&weights[max_idx], &weights[i]);
+	}
+}
+
+void findMaxValue(int& max1, int& max2, int i, int profits[], int n, int m) {
+
+	// Find the two maximum item in unsorted array
+	max1 = i;
+	max2 = i;
+	for (int j = i + 1; j < n*m; j++) {
+
+		if (profits[j] > profits[max1]) {
+			max2 = max1;
+			max1 = j;
+		}
+		else if (profits[j] > profits[max2]) {
+			max2 = j;
+		}
+
 	}
 }
 

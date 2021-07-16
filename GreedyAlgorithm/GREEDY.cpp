@@ -43,6 +43,8 @@ int solve(int n, int m, int r, int weights[], int capacities[], int profits[], i
 						result += profits[j];
 						// item assigned
 						f[j] = 1;
+						// setup assign
+						f[n*m + profitsKnapsack[j]*r + class1] = 1;
 					}
 
 				}

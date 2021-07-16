@@ -50,10 +50,11 @@ int main(int argc, char **argv)
 		return -3;
 	}
 
+	std::cout << "Instance value:" << std::endl;
 	printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
 
-	double *f = (double *)malloc(sizeof(double) * n * m); // fj vector
 	// it is a double because in this way I can recycle the code CHECK_CONS without change any code
+	double *f = (double *)malloc(sizeof(double) * (n * m + m * r)); // fj vector
 
 	int *bCopy = (int *)malloc(sizeof(int) * r);
 	int *capacitiesCopy = (int *)malloc(sizeof(int) * m);
@@ -62,13 +63,13 @@ int main(int argc, char **argv)
 	for (int i = 0; i < argc - 2; i++) {
 
 		if (q[i] == 1)
-			decreasingSort(profits, profitsKnapsack, profitsItem, n, m, weights);
+			decreasingSort1(profits, profitsKnapsack, profitsItem, weights, n, m);
 		else if (q[i] == 2)
-			decreasingSort(profits, profitsKnapsack, profitsItem, weights, n, m);
+			decreasingSort2(profits, profitsKnapsack, profitsItem, weights, n, m);
 		else if (q[i] == 3)
-			decreasingSort(profits, profitsKnapsack, profitsItem, weights, setups, classes, indexes, n, m, r);
+			decreasingSort3(profits, profitsKnapsack, profitsItem, weights, setups, classes, indexes, n, m, r);
 		else if (q[i] == 4)
-			decreasingSort(profits, profitsKnapsack, profitsItem, weights, n, m, r);
+			decreasingSort4(profits, profitsKnapsack, profitsItem, weights, n, m);
 		else {
 			std::cout << "Q is not valid!\n";
 			return -2;
@@ -77,7 +78,7 @@ int main(int argc, char **argv)
 		//printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
 
 		// reset fj vector
-		for (int j = 0; j < n*m; j++)
+		for (int j = 0; j < n*m + m*r; j++)
 			f[j] = 0;
 
 		copyArray(b, bCopy, r);
@@ -97,32 +98,29 @@ int main(int argc, char **argv)
 		std::cout << "Result is " << result << std::endl;
 		
 		ascendingSort(profits, profitsKnapsack, profitsItem, weights, f, n, m);
-		//printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
+		printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
 
 		status = checkSolution(f, result, n, m, r, b, weights, profits, capacities, setups, classes, indexes);
-		std::cout << status << std::endl;
 
-		/*int statusCheck = checkSolution(x, objval, n, m, r, b, weights, profits, capacities, setups, classes, indexes);
-
-		if (statusCheck == 0) {
+		if (status == 0) {
 			std::cout << "All constraints are ok" << std::endl;
 		}
-		else if (statusCheck == 1) {
+		else if (status == 1) {
 			std::cout << "Constraint violated: weights of the items are greater than the capacity..." << std::endl;
 		}
-		else if (statusCheck == 2) {
+		else if (status == 2) {
 			std::cout << "Constraint violated: item is assigned to more than one knapsack..." << std::endl;
 		}
-		else if (statusCheck == 3) {
+		else if (status == 3) {
 			std::cout << "Constraint violated: class is assigned to more than one knapsack..." << std::endl;
 		}
-		else if (statusCheck == 4) {
+		else if (status == 4) {
 			std::cout << "Constraint violated: items of class are not assigned to knapsack..." << std::endl;
 		}
-		else if (statusCheck == 5) {
+		else if (status == 5) {
 			std::cout << "Optimal solution violeted..." << std::endl;
-		}*/
-	}
+		}
+	} // for
 
 	// free memory
 	free(b);
