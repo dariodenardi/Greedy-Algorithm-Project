@@ -15,6 +15,6 @@ void decreasingAttribute2(int profits[], int profitsTemp[], int profitsKnapsackT
 void decreasingAttribute3(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r);
 
 // attribute 4
-void decreasingSort4(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n, int m);
+void decreasingAttribute4(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int n, int m);
 
 #endif /* SORT_H_ */

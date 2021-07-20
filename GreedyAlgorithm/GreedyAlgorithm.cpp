@@ -70,8 +70,8 @@ int main(int argc, char **argv)
 			decreasingAttribute2(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 3)
 			decreasingAttribute3(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
-		/*else if (q[i] == 4)
-			decreasingSort4(profits, profitsKnapsack, profitsItem, weights, n, m);*/
+		else if (q[i] == 4)
+			decreasingAttribute4(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else {
 			std::cout << "Q is not valid!\n";
 			return -2;
