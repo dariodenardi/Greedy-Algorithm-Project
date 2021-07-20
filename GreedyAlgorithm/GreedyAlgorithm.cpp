@@ -35,8 +35,6 @@ int main(int argc, char **argv)
 	int r; // number of subsets
 	int *b = &num; // item can be assign at most to bk knapsacks // num points to somewhere random
 	int *profits = &num; // array for linear profit term
-	int *profitsKnapsack = &num; // which knapsack is assigned to i-th profit
-	int *profitsItem = &num; // which item is assigned to i-th profit
 	int *weights = &num; // array of weights
 	int *capacities = &num; // array of knapsack capacities
 	int *setups = &num; // array of setup
@@ -44,48 +42,50 @@ int main(int argc, char **argv)
 	int *indexes = &num; // array of indexes
 
 	// read file
-	int status = readInstance(istance_name, n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
+	int status = readInstance(istance_name, n, m, r, weights, capacities, profits, classes, indexes, setups, b);
 	if (status) {
 		std::cout << "File not read correctly or wrong format" << std::endl;
 		return -3;
 	}
 
 	std::cout << "Instance value:" << std::endl;
-	printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
+	printInstance(n, m, r, weights, capacities, profits, classes, indexes, setups, b);
 
 	// it is a double because in this way I can recycle the code CHECK_CONS without change any code
 	double *f = (double *)malloc(sizeof(double) * (n * m + m * r)); // fj vector
-
-	int *bCopy = (int *)malloc(sizeof(int) * r);
-	int *capacitiesCopy = (int *)malloc(sizeof(int) * m);
+	
+	int *profitsKnapsackTemp = (int *)malloc(sizeof(int) * n);
+	int *profitsItemTemp = (int *)malloc(sizeof(int) * n);
+	int *profitsTemp = (int *)malloc(sizeof(int) * n);
+	int *weightsTemp = (int *)malloc(sizeof(int) * n);
+	int *bTemp = (int *)malloc(sizeof(int) * r);
+	int *capacitiesTemp = (int *)malloc(sizeof(int) * m);
 
 	// for all sorts entered in input
 	for (int i = 0; i < argc - 2; i++) {
 
 		if (q[i] == 1)
-			decreasingSort1(profits, profitsKnapsack, profitsItem, weights, n, m);
+			decreasingAttribute1(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 2)
-			decreasingSort2(profits, profitsKnapsack, profitsItem, weights, n, m);
+			decreasingAttribute2(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 3)
-			decreasingSort3(profits, profitsKnapsack, profitsItem, weights, setups, classes, indexes, n, m, r);
-		else if (q[i] == 4)
-			decreasingSort4(profits, profitsKnapsack, profitsItem, weights, n, m);
+			decreasingAttribute3(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
+		/*else if (q[i] == 4)
+			decreasingSort4(profits, profitsKnapsack, profitsItem, weights, n, m);*/
 		else {
 			std::cout << "Q is not valid!\n";
 			return -2;
 		}
 
-		//printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
-
 		// reset fj vector
-		for (int j = 0; j < n*m + m*r; j++)
+		for (int j = 0; j < n*m + m * r; j++)
 			f[j] = 0;
 
-		copyArray(b, bCopy, r);
-		copyArray(capacities, capacitiesCopy, m);
-
+		copyArray(b, bTemp, r);
+		copyArray(capacities, capacitiesTemp, m);
+		
 		// greedy algorithm
-		int result = solve(n, m, r, weights, capacitiesCopy, profits, profitsKnapsack, profitsItem, classes, indexes, setups, bCopy, f);
+		int result = solve(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, setups, bTemp, f);
 
 		if (q[i] == 1)
 			std::cout << "Q=1: ";
@@ -96,9 +96,6 @@ int main(int argc, char **argv)
 		else
 			std::cout << "Q=4: ";
 		std::cout << "Result is " << result << std::endl;
-		
-		ascendingSort(profits, profitsKnapsack, profitsItem, weights, f, n, m);
-		printInstance(n, m, r, weights, capacities, profits, profitsKnapsack, profitsItem, classes, indexes, setups, b);
 
 		status = checkSolution(f, result, n, m, r, b, weights, profits, capacities, setups, classes, indexes);
 
@@ -125,8 +122,6 @@ int main(int argc, char **argv)
 	// free memory
 	free(b);
 	free(profits);
-	free(profitsKnapsack);
-	free(profitsItem);
 	free(weights);
 	free(capacities);
 	free(setups);
@@ -134,8 +129,12 @@ int main(int argc, char **argv)
 	free(indexes);
 	free(q);
 	free(f);
-	free(bCopy);
-	free(capacitiesCopy);
+	free(profitsKnapsackTemp);
+	free(profitsItemTemp);
+	free(profitsTemp);
+	free(weightsTemp);
+	free(bTemp);
+	free(capacitiesTemp);
 
 	return 0;
 }

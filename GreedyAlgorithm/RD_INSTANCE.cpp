@@ -3,7 +3,7 @@
 void tokenize(std::string const &str, const char delim, std::vector<std::string> &out);
 void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * classes);
 
-int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &profitsKnapsack, int * &profitsItem, int * &classes, int * &indexes, int * &setups, int * &b) {
+int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &classes, int * &indexes, int * &setups, int * &b) {
 
 	char path[200];
 	strcpy_s(path, "instances/");
@@ -38,8 +38,6 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 				classes = (int *)malloc(sizeof(int) * n);
 				if (mFind && nFind) {
 					profits = (int *)malloc(sizeof(int) * n * m);
-					profitsKnapsack = (int *)malloc(sizeof(int) * n * m);
-					profitsItem = (int *)malloc(sizeof(int) * n * m);
 					weights = (int *)malloc(sizeof(int) * n * m);
 				}
 			}
@@ -49,8 +47,6 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 				capacities = (int *)malloc(sizeof(int) * m);
 				if (mFind && nFind) {
 					profits = (int *)malloc(sizeof(int) * n * m);
-					profitsKnapsack = (int *)malloc(sizeof(int) * n * m);
-					profitsItem = (int *)malloc(sizeof(int) * n * m);
 					weights = (int *)malloc(sizeof(int) * n * m);
 				}
 			}
@@ -113,9 +109,6 @@ int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * 
 						return 2;
 					if (mCheck+1 != strtol(out2[1].c_str(), NULL, 10))
 						return 2;
-
-					profitsKnapsack[nCheck - 1 + mCheck * n] = mCheck;
-					profitsItem[nCheck - 1 + mCheck * n] = nCheck - 1;
 
 					if (nCheck == n && (mCheck+1) != m) {
 						nCheck = 0;
@@ -254,7 +247,7 @@ void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * 
 
 }
 
-void printInstance(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[]) {
+void printInstance(int n, int m, int r, int weights[], int capacities[], int profits[], int classes[], int indexes[], int setups[], int b[]) {
 	std::cout << "n=" << n << std::endl;
 	std::cout << "m=" << m << std::endl;
 	std::cout << "r=" << r << std::endl;
@@ -263,8 +256,9 @@ void printInstance(int n, int m, int r, int weights[], int capacities[], int pro
 
 	std::cout << "j\t" << "i\t" << "p(i,j)\t" << "w(i)\t" << "class" << std::endl;
 	std::cout << "----------------------------------------" << std::endl;
-	for (int i = 0; i < n*m; i++)
-		std::cout << profitsItem[i] + 1 << "\t" << profitsKnapsack[i] + 1 << "\t" << profits[i] << "\t" << weights[i] << "\t" << findClass(profitsItem[i], classes, indexes, r) + 1 << std::endl;
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+			std::cout << j + i*n + 1 << "\t" << i + 1 << "\t" << profits[j + i * n] << "\t" << weights[j + i * n] << "\t" << findClass(j + i * n, classes, indexes, r) + 1 << std::endl;
 	std::cout << std::endl;
 
 	std::cout << "c(i)" << std::endl;
