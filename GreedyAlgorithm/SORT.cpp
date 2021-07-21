@@ -79,7 +79,7 @@ void decreasingAttribute2(int profits[], int profitsTemp[], int profitsKnapsackT
 			double div1 = (double)profits[j + i * n] / weights[j + i * n];
 			if (div1 > max_value) {
 				max_idx = j + i * n;
-				max_value = profits[max_idx];
+				max_value = div1;
 				max_knapsack = i;
 			}
 
@@ -140,7 +140,7 @@ void decreasingAttribute3(int profits[], int profitsTemp[], int profitsKnapsackT
 
 			if (div1 > max_value) {
 				max_idx = j + i * n;
-				max_value = profits[max_idx];
+				max_value = div1;
 				max_knapsack = i;
 			}
 
@@ -243,7 +243,7 @@ void decreasingSort4(int profits[], int differenceTemp[], int profitsKnapsack[],
 			if (differenceTemp[j] > differenceTemp[max_idx])
 				max_idx = j;
 		}
-		std::cout << differenceTemp[max_idx] << "\t" << profitsKnapsack[max_idx] + 1 << "\t" << profitsItem[max_idx] + 1 << "\t" << weights[max_idx] << std::endl;
+		//std::cout << differenceTemp[max_idx] << "\t" << profitsKnapsack[max_idx] + 1 << "\t" << profitsItem[max_idx] + 1 << "\t" << weights[max_idx] << std::endl;
 		// Swap the found maximum item
 		// with the first item
 		replace(&profits[max_idx], &profits[i]);
@@ -252,7 +252,7 @@ void decreasingSort4(int profits[], int differenceTemp[], int profitsKnapsack[],
 		replace(&profitsItem[max_idx], &profitsItem[i]);
 		replace(&weights[max_idx], &weights[i]);
 	}
-	std::cout << differenceTemp[n - 1] << "\t" << profitsKnapsack[n - 1] + 1 << "\t" << profitsItem[n - 1] + 1 << "\t" << weights[n - 1] << std::endl;
+	//std::cout << differenceTemp[n - 1] << "\t" << profitsKnapsack[n - 1] + 1 << "\t" << profitsItem[n - 1] + 1 << "\t" << weights[n - 1] << std::endl;
 }
 
 void replace(int *a, int *b)

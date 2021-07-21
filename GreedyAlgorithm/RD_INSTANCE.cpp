@@ -258,7 +258,7 @@ void printInstance(int n, int m, int r, int weights[], int capacities[], int pro
 	std::cout << "----------------------------------------" << std::endl;
 	for (int i = 0; i < m; i++)
 		for (int j = 0; j < n; j++)
-			std::cout << j + i*n + 1 << "\t" << i + 1 << "\t" << profits[j + i * n] << "\t" << weights[j + i * n] << "\t" << findClass(j + i * n, classes, indexes, r) + 1 << std::endl;
+			std::cout << j + 1 << "\t" << i + 1 << "\t" << profits[j + i * n] << "\t" << weights[j + i * n] << "\t" << findClass(j, classes, indexes, r) + 1 << std::endl;
 	std::cout << std::endl;
 
 	std::cout << "c(i)" << std::endl;
