@@ -18,9 +18,6 @@
     <ClCompile Include="SORT.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="RD_INSTANCE.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
     <ClCompile Include="GREEDY.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
@@ -33,22 +30,31 @@
     <ClCompile Include="CHECK_CONS.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="POST_PROC.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="INSTANCE.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SORT.h">
-      <Filter>File di origine</Filter>
-    </ClInclude>
-    <ClInclude Include="RD_INSTANCE.h">
-      <Filter>File di origine</Filter>
+    <ClInclude Include="CHECK_CONS.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="GREEDY.h">
-      <Filter>File di origine</Filter>
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="POST_PROC.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="SORT.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="UTILITY.h">
-      <Filter>File di origine</Filter>
+      <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="CHECK_CONS.h">
-      <Filter>File di origine</Filter>
+    <ClInclude Include="INSTANCE.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

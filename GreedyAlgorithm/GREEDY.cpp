@@ -1,7 +1,5 @@
 #include "GREEDY.h"
 
-bool isClassAlreadyPresentInKnapsack(int n, int m, double f[], int knapsack, int classItem, int classes[], int indexes[], int r);
-
 int solve(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[], double f[]) {
 
 	int result = 0;
@@ -44,22 +42,7 @@ int solve(int n, int m, int r, int weights[], int capacities[], int profits[], i
 			}
 		} // if setupIsPresent
 
-	} // all items
+	} // j (items)
 
 	return result;
-}
-
-bool isClassAlreadyPresentInKnapsack(int n, int m, double f[], int knapsack, int classItem, int classes[], int indexes[], int r) {
-
-	for (int j = 0; j < n; j++) {
-		// only if fj item is assigned
-		if (f[j + knapsack * n] == 1) {
-			int class1 = findClass(j, classes, indexes, r);
-			if (class1 == classItem)
-				return true;
-		}
-		
-	}
-
-	return false;
 }
