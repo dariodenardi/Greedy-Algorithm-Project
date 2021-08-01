@@ -56,59 +56,56 @@ int main(int argc, char **argv)
 
 	printInstance(n, m, r, weights, capacities, profits, classes, indexes, setups, b);
 
-	// it is a double because in this way I can recycle the code CHECK_CONS without change any code
-	double *f = (double *)malloc(sizeof(double) * (n * m + m * r)); // fj vector
+	// I could use a bool type but it is a double because in this way I can recycle CHECK_CONS without change any code
+	double *f = (double *)malloc(sizeof(double) * (n * m + m * r)); // array of unassigned/assigned items/setups
 	
-	int *profitsKnapsackBestValueTemp = (int *)malloc(sizeof(int) * n); // temporary vectors of order of the profits (knapsack) for the first part of the algorithm
-	int *profitsItemBestValueTemp = (int *)malloc(sizeof(int) * n); // temporary vectors of order of the profits (item) for the first part of the algorithm
-	int *profitsBestValueTemp = (int *)malloc(sizeof(int) * n); // temporary vectors of profits for the first part of the algorithm
-	int *weightsBestValueTemp = (int *)malloc(sizeof(int) * n); // temporary vectors of weights for the first part of the algorithm
-	int *profitsKnapsackTemp = (int *)malloc(sizeof(int) * (n*m)); // temporary vectors of order of the profits (knapsack) for the second part of the algorithm
-	int *profitsItemTemp = (int *)malloc(sizeof(int) * (n*m));  // temporary vectors of order of the profits (item) for the second part of the algorithm
-	int *profitsTemp = (int *)malloc(sizeof(int) * (n*m)); // temporary vectors of profits for the second part of the algorithm
-	int *weightsTemp = (int *)malloc(sizeof(int) * (n*m)); // temporary vectors of weights for the second part of the algorithm
-	int *bTemp = (int *)malloc(sizeof(int) * r); // temporary vector of b
-	int *capacitiesTemp = (int *)malloc(sizeof(int) * m); // temporary vector of capacities
+	// temporary array
+	int *profitsKnapsackTemp = (int *)malloc(sizeof(int) * n);
+	int *profitsItemTemp = (int *)malloc(sizeof(int) * n);
+	int *profitsTemp = (int *)malloc(sizeof(int) * n);
+	int *weightsTemp = (int *)malloc(sizeof(int) * n);
+	int *bTemp = (int *)malloc(sizeof(int) * r);
+	int *capacitiesTemp = (int *)malloc(sizeof(int) * m);
 
 	// for all sorts entered in input
 	for (int i = 0; i < argc - 2; i++) {
 
 		if (q[i] == 1)
-			std::cout << "Q=1" << std::endl;
+			std::cout << "Q=1:" << std::endl;
 		else if (q[i] == 2)
-			std::cout << "Q=2" << std::endl;
+			std::cout << "Q=2:" << std::endl;
 		else if (q[i] == 3)
-			std::cout << "Q=3" << std::endl;
+			std::cout << "Q=3:" << std::endl;
 		else
-			std::cout << "Q=4" << std::endl;
+			std::cout << "Q=4:" << std::endl;
 
 		if (q[i] == 1)
-			decreasingBestAttribute1(profits, profitsBestValueTemp, profitsKnapsackBestValueTemp, profitsItemBestValueTemp, weights, weightsBestValueTemp, n, m);
+			decreasingAttribute1(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 2)
-			decreasingBestAttribute2(profits, profitsBestValueTemp, profitsKnapsackBestValueTemp, profitsItemBestValueTemp, weights, weightsBestValueTemp, n, m);
+			decreasingAttribute2(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 3)
-			decreasingBestAttribute3(profits, profitsBestValueTemp, profitsKnapsackBestValueTemp, profitsItemBestValueTemp, weights, weightsBestValueTemp, setups, classes, indexes, n, m, r);
+			decreasingAttribute3(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 		else if (q[i] == 4)
-			decreasingBestAttribute4(profits, profitsBestValueTemp, profitsKnapsackBestValueTemp, profitsItemBestValueTemp, weights, weightsBestValueTemp, n, m);
+			decreasingAttribute4(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
 		else {
 			std::cout << "Q is not valid!\n";
 			return -2;
 		}
 
-		//printInstance(n, 1, r, weightsBestValueTemp, NULL, profitsBestValueTemp, profitsKnapsackBestValueTemp, profitsItemBestValueTemp, classes, indexes, NULL, NULL);
+		//printInstance(n, m, r, weightsTemp, NULL, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
 
-		// reset fj vector
+		// reset f array
 		for (int j = 0; j < n*m + m * r; j++)
 			f[j] = 0;
 
-		// reset b vector e capacities vector
+		// reset b and capacities arrays
 		copyArray(b, bTemp, r);
 		copyArray(capacities, capacitiesTemp, m);
 		
 		start = clock();
 
 		// greedy algorithm
-		int result = solve(n, m, r, weightsBestValueTemp, capacitiesTemp, profitsBestValueTemp, profitsKnapsackBestValueTemp, profitsItemBestValueTemp, classes, indexes, setups, bTemp, f);
+		int result = solve(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, setups, bTemp, f);
 
 		std::cout << "Greedy algorithm: result is " << result << std::endl;
 
@@ -133,51 +130,14 @@ int main(int argc, char **argv)
 			std::cout << "Greedy algorithm: optimal solution violeted..." << std::endl;
 		}
 
-		// prepare array for post-processing
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				profitsItemTemp[j + i * n] = j;
-				profitsKnapsackTemp[j + i * n] = i;
-				weightsTemp[j + i * n] = weights[j];
-			}
-		}
-		copyArray(profits, profitsTemp, n*m);
-
-		if (q[i] == 1)
-			decreasingAllAttribute1(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, n, m);
-		else if (q[i] == 2)
-			decreasingAllAttribute2(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, n, m);
-		else if (q[i] == 3)
-			decreasingAllAttribute3(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, setups, classes, indexes, n, m, r);
-		//else if (q[i] == 4)
-		//	decreasingAllAttribute4(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
-		else {
-			std::cout << "Q is not valid!\n";
-			return -2;
-		}
-
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				std::cout << j + 1 << "\t" << (int)f[j + i * n] << std::endl;
-			}
-		}
-		std::cout << std::endl;
-
-		printInstance(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
+		//printInstance(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
 
 		// post-precessing
-		result = solve(result, n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, setups, bTemp, f);
+		result = solve(result, n, m, r, weights, capacitiesTemp, profits, profitsItemTemp, classes, indexes, setups, bTemp, f);
 
 		std::cout << "Post-precessing: result is " << result << std::endl;
 
 		status = checkSolution(f, result, n, m, r, b, weights, profits, capacities, setups, classes, indexes);
-
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < n; j++) {
-				std::cout << j + 1 << "\t" << (int)f[j + i * n] << std::endl;
-			}
-		}
-		std::cout << std::endl;
 
 		if (status == 0) {
 			std::cout << "Post-precessing: all constraints are ok" << std::endl;
@@ -215,10 +175,6 @@ int main(int argc, char **argv)
 	free(indexes);
 	free(q);
 	free(f);
-	free(profitsKnapsackBestValueTemp);
-	free(profitsItemBestValueTemp);
-	free(profitsBestValueTemp);
-	free(weightsBestValueTemp);
 	free(profitsKnapsackTemp);
 	free(profitsItemTemp);
 	free(profitsTemp);
