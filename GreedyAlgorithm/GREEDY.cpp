@@ -10,7 +10,7 @@ int solve(int n, int m, int r, int weights[], int capacities[], int profits[], i
 		int class1 = findClass(profitsItem[j], classes, indexes, r);
 
 		// if setup is already present in knapsack
-		bool setupIsPresent = isClassAlreadyPresentInKnapsack(n, m, f, profitsKnapsack[j], class1, classes, indexes, r);
+		bool setupIsPresent = isClassAlreadyPresentInKnapsack(n, f, profitsKnapsack[j], class1, classes, indexes, r);
 
 		if (setupIsPresent) {
 

@@ -76,8 +76,16 @@ int main(int argc, char **argv)
 			std::cout << "Q=2:" << std::endl;
 		else if (q[i] == 3)
 			std::cout << "Q=3:" << std::endl;
-		else
+		else if (q[i] == 4)
 			std::cout << "Q=4:" << std::endl;
+		else if (q[i] == 5)
+			std::cout << "Q=5:" << std::endl;
+		else if (q[i] == 6)
+			std::cout << "Q=6:" << std::endl;
+		else {
+			std::cout << "Q is not valid!\n";
+			return -2;
+		}
 
 		if (q[i] == 1)
 			decreasingAttribute1(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
@@ -87,12 +95,12 @@ int main(int argc, char **argv)
 			decreasingAttribute3(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 		else if (q[i] == 4)
 			decreasingAttribute4(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
-		else {
-			std::cout << "Q is not valid!\n";
-			return -2;
-		}
+		else if (q[i] == 5)
+			decreasingAttribute5(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
+		else
+			decreasingAttribute6(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 
-		//printInstance(n, m, r, weightsTemp, NULL, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
+		printInstance(n, m, r, weightsTemp, NULL, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
 
 		// reset f array
 		for (int j = 0; j < n*m + m * r; j++)
