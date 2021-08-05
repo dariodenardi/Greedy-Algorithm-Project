@@ -371,7 +371,7 @@ void decreasingSort6(int profits[], int profitsKnapsack[], int profitsItem[], in
 			int class1 = findClass(profitsItem[j], classes, indexes, r);
 			double ro1 = (double)sumAllWeightsOfClass(profitsItem[j], class1, classes, indexes, weights) / sumAllProfitsOfClass(profitsItem[j], class1, classes, indexes, profits, profitsKnapsack[j], n);
 			int class2 = findClass(profitsItem[max_idx], classes, indexes, r);
-			double ro2 = (double)sumAllWeightsOfClass(profitsItem[max_idx], class2, classes, indexes, weights) / sumAllProfitsOfClass(profitsItem[max_idx], class2, classes, indexes, profits, profitsKnapsack[j], n);
+			double ro2 = (double)sumAllWeightsOfClass(profitsItem[max_idx], class2, classes, indexes, weights) / sumAllProfitsOfClass(profitsItem[max_idx], class2, classes, indexes, profits, profitsKnapsack[max_idx], n);
 
 			double div1 = (double)profits[profitsItem[j] + profitsKnapsack[j] * n] / (double)(weights[j] + setups[class1] * ro1);
 			double div2 = (double)profits[max_idx] / (double)(weights[max_idx] + setups[class2] * ro2);
