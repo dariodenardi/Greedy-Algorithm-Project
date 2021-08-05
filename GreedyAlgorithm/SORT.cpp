@@ -338,7 +338,7 @@ void decreasingAttribute6(int profits[], int profitsTemp[], int profitsKnapsackT
 			int class1 = findClass(j, classes, indexes, r);
 			double ro1 = (double)sumAllWeightsOfClass(j, class1, classes, indexes, weights) / sumAllProfitsOfClass(j, class1, classes, indexes, profits, i, n);
 
-			double div1 = (double)profits[j + i * n] / (double)(weights[j] + setups[class1]*ro1);
+			double div1 = (double)profits[j + i * n] / (weights[j] + (double)setups[class1]*ro1);
 
 			if (div1 > max_value) {
 				max_idx = j + i * n;
@@ -373,8 +373,8 @@ void decreasingSort6(int profits[], int profitsKnapsack[], int profitsItem[], in
 			int class2 = findClass(profitsItem[max_idx], classes, indexes, r);
 			double ro2 = (double)sumAllWeightsOfClass(profitsItem[max_idx], class2, classes, indexes, weights) / sumAllProfitsOfClass(profitsItem[max_idx], class2, classes, indexes, profits, profitsKnapsack[max_idx], n);
 
-			double div1 = (double)profits[profitsItem[j] + profitsKnapsack[j] * n] / (double)(weights[j] + setups[class1] * ro1);
-			double div2 = (double)profits[max_idx] / (double)(weights[max_idx] + setups[class2] * ro2);
+			double div1 = (double)profits[j] / (weights[j] + (double)setups[class1] * ro1);
+			double div2 = (double)profits[max_idx] / (weights[max_idx] + (double)setups[class2] * ro2);
 
 			if (div1 > div2)
 				max_idx = j;
