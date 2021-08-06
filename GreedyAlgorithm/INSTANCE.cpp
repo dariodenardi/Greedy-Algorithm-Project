@@ -274,13 +274,13 @@ void printInstance(int n, int m, int r, int weights[], int capacities[], int pro
 	}
 }
 
-void printInstance(int n, int m, int r, int weights[], int capacities[], int profits[], int profitsKnapsack[], int profitsItem[], int classes[], int indexes[], int setups[], int b[]) {
+void printInstance(int n, int m, int r, int weights[], int capacities[], int profits[], int itemKnapsack[], int itemIndex[], int classes[], int indexes[], int setups[], int b[]) {
 	std::cout << "Instance value:" << std::endl;
 
 	std::cout << "j\t" << "i\t" << "p(i,j)\t" << "w(i)\t" << "class" << std::endl;
 	std::cout << "----------------------------------------" << std::endl;
 	for (int j = 0; j < n; j++)
-			std::cout << profitsItem[j] + 1 << "\t" << profitsKnapsack[j] + 1 << "\t" << profits[j] << "\t" << weights[j] << "\t" << findClass(profitsItem[j], classes, indexes, r) + 1 << std::endl;
+			std::cout << itemIndex[j] + 1 << "\t" << itemKnapsack[j] + 1 << "\t" << profits[j] << "\t" << weights[j] << "\t" << findClass(itemIndex[j], classes, indexes, r) + 1 << std::endl;
 	std::cout << std::endl;
 
 	if (capacities != NULL) {

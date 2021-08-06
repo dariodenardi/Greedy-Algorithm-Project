@@ -14,7 +14,7 @@ for each knapsack i do
 	end do
 end do
 */
-int solve(int result, int n, int m, int r, int weights[], int capacitiesTemp[], int profits[], int profitsItemTemp[], int classes[], int indexes[], int setups[], int b[], double f[]) {
+int solve(int result, int n, int m, int r, int weights[], int capacitiesTemp[], int profits[], int itemIndexTemp[], int classes[], int indexes[], int setups[], int b[], double f[]) {
 
 	int new_result = result;
 
@@ -29,42 +29,42 @@ int solve(int result, int n, int m, int r, int weights[], int capacitiesTemp[], 
 		for (int j = 0; j < n; j++) {
 
 			// check if fj is not present
-			if (f[profitsItemTemp[j] + i * n] == 0) {
+			if (f[itemIndexTemp[j] + i * n] == 0) {
 
 				// if item is already present
-				bool itemIsPresent = isItemAlreadyAssigned(n, m, profitsItemTemp[j], f);
+				bool itemIsPresent = isItemAlreadyAssigned(n, m, itemIndexTemp[j], f);
 				
 				if (!itemIsPresent) {
 
 					// find class of the item that we want add
-					int class1 = findClass(profitsItemTemp[j], classes, indexes, r);
+					int class1 = findClass(itemIndexTemp[j], classes, indexes, r);
 
 					// if setup is already present in knapsack
 					bool setupIsPresent = isClassAlreadyPresentInKnapsack(n, f, i, class1, classes, indexes, r);
 
 					if (setupIsPresent) {
 
-						if (capacitiesTemp[i] - weights[profitsItemTemp[j]] > 0) {
+						if (capacitiesTemp[i] - weights[itemIndexTemp[j]] > 0) {
 
-							capacitiesTemp[i] = capacitiesTemp[i] - weights[profitsItemTemp[j]];
+							capacitiesTemp[i] = capacitiesTemp[i] - weights[itemIndexTemp[j]];
 
-							new_result += profits[profitsItemTemp[j] + i * n];
+							new_result += profits[itemIndexTemp[j] + i * n];
 							// item assigned
-							f[profitsItemTemp[j] + i * n] = 1;
+							f[itemIndexTemp[j] + i * n] = 1;
 						}
 					}
 					else {
 						// check if in b vector there is a free slot
 						if (b[class1] > 0) {
 
-							if (capacitiesTemp[i] - weights[profitsItemTemp[j]] - setups[class1] > 0) {
+							if (capacitiesTemp[i] - weights[itemIndexTemp[j]] - setups[class1] > 0) {
 
-								capacitiesTemp[i] = capacitiesTemp[i] - weights[profitsItemTemp[j]] - setups[class1];
+								capacitiesTemp[i] = capacitiesTemp[i] - weights[itemIndexTemp[j]] - setups[class1];
 								b[class1] -= 1;
 
-								new_result += profits[profitsItemTemp[j] + i * n];
+								new_result += profits[itemIndexTemp[j] + i * n];
 								// item assigned
-								f[profitsItemTemp[j] + i * n] = 1;
+								f[itemIndexTemp[j] + i * n] = 1;
 								// setup assign
 								f[n*m + i * r + class1] = 1;
 							}

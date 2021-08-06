@@ -1,16 +1,16 @@
 #include "SORT.h"
 
-void decreasingSort1(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n);
-void decreasingSort2(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n);
-void decreasingSort3(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int m, int r);
-void decreasingSort4(int profits[], int differenceTemp[], int profitsKnapsack[], int profitsItem[], int weights[], int n);
-void decreasingSort5(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int r);
-void decreasingSort6(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int r);
+void decreasingSort1(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int n);
+void decreasingSort2(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int n);
+void decreasingSort3(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r);
+void decreasingSort4(int profitsTemp[], int differenceTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int n);
+void decreasingSort5(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int r);
+void decreasingSort6(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int r);
 void replace(int *a, int *b);
 void replace(double *a, double *b);
 
 // attribute 1
-void decreasingAttribute1(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int n, int m)
+void decreasingAttribute1(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int n, int m)
 {
 	int i, j, max_idx, max_value, max_knapsack;
 
@@ -32,15 +32,15 @@ void decreasingAttribute1(int profits[], int profitsTemp[], int profitsKnapsackT
 
 		profitsTemp[j] = profits[max_idx];
 		weightsTemp[j] = weights[j];
-		profitsItemTemp[j] = j;
-		profitsKnapsackTemp[j] = max_knapsack;
+		itemIndexTemp[j] = j;
+		itemKnapsackTemp[j] = max_knapsack;
 	} // items
 
 	// order by decreasing value
-	decreasingSort1(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, n);
+	decreasingSort1(profitsTemp, itemKnapsackTemp, itemIndexTemp, weightsTemp, n);
 }
 
-void decreasingSort1(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n) {
+void decreasingSort1(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int n) {
 	int i, j, max_idx;
 
 	// One by one move boundary of unsorted subarray
@@ -50,21 +50,21 @@ void decreasingSort1(int profits[], int profitsKnapsack[], int profitsItem[], in
 		max_idx = i;
 		for (j = i + 1; j < n; j++) {
 
-			if (profits[j] > profits[max_idx])
+			if (profitsTemp[j] > profitsTemp[max_idx])
 				max_idx = j;
 		}
 
 		// Swap the found maximum item
 		// with the first item
-		replace(&profits[max_idx], &profits[i]);
-		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
-		replace(&profitsItem[max_idx], &profitsItem[i]);
-		replace(&weights[max_idx], &weights[i]);
+		replace(&profitsTemp[max_idx], &profitsTemp[i]);
+		replace(&itemKnapsackTemp[max_idx], &itemKnapsackTemp[i]);
+		replace(&itemIndexTemp[max_idx], &itemIndexTemp[i]);
+		replace(&weightsTemp[max_idx], &weightsTemp[i]);
 	}
 }
 
 // attribute 2
-void decreasingAttribute2(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int n, int m)
+void decreasingAttribute2(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int n, int m)
 {
 	int i, j, max_idx, max_knapsack;
 	double max_value;
@@ -88,15 +88,15 @@ void decreasingAttribute2(int profits[], int profitsTemp[], int profitsKnapsackT
 
 		profitsTemp[j] = profits[max_idx];
 		weightsTemp[j] = weights[j];
-		profitsItemTemp[j] = j;
-		profitsKnapsackTemp[j] = max_knapsack;
+		itemIndexTemp[j] = j;
+		itemKnapsackTemp[j] = max_knapsack;
 	} // items
 
 	// order by decreasing value
-	decreasingSort2(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, n);
+	decreasingSort2(profitsTemp, itemKnapsackTemp, itemIndexTemp, weightsTemp, n);
 }
 
-void decreasingSort2(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int n) {
+void decreasingSort2(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int n) {
 	int i, j, max_idx;
 
 	// One by one move boundary of unsorted subarray
@@ -106,23 +106,23 @@ void decreasingSort2(int profits[], int profitsKnapsack[], int profitsItem[], in
 		max_idx = i;
 		for (j = i + 1; j < n; j++) {
 
-			double div1 = (double)profits[j] / weights[j];
-			double div2 = (double)profits[max_idx] / weights[max_idx];
+			double div1 = (double)profitsTemp[j] / weightsTemp[j];
+			double div2 = (double)profitsTemp[max_idx] / weightsTemp[max_idx];
 			if (div1 > div2)
 				max_idx = j;
 		}
 
 		// Swap the found maximum item
 		// with the first item
-		replace(&profits[max_idx], &profits[i]);
-		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
-		replace(&profitsItem[max_idx], &profitsItem[i]);
-		replace(&weights[max_idx], &weights[i]);
+		replace(&profitsTemp[max_idx], &profitsTemp[i]);
+		replace(&itemKnapsackTemp[max_idx], &itemKnapsackTemp[i]);
+		replace(&itemIndexTemp[max_idx], &itemIndexTemp[i]);
+		replace(&weightsTemp[max_idx], &weightsTemp[i]);
 	}
 }
 
 // attribute 3
-void decreasingAttribute3(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r)
+void decreasingAttribute3(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r)
 {
 	int i, j, max_idx, max_knapsack;
 	double max_value;
@@ -148,15 +148,15 @@ void decreasingAttribute3(int profits[], int profitsTemp[], int profitsKnapsackT
 
 		profitsTemp[j] = profits[max_idx];
 		weightsTemp[j] = weights[j];
-		profitsItemTemp[j] = j;
-		profitsKnapsackTemp[j] = max_knapsack;
+		itemIndexTemp[j] = j;
+		itemKnapsackTemp[j] = max_knapsack;
 	} // items
 
 	// order by decreasing value
-	decreasingSort3(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, setups, classes, indexes, n, m, r);
+	decreasingSort3(profitsTemp, itemKnapsackTemp, itemIndexTemp, weightsTemp, setups, classes, indexes, n, m, r);
 }
 
-void decreasingSort3(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int m, int r) {
+void decreasingSort3(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r) {
 	int i, j, max_idx;
 
 	// One by one move boundary of unsorted subarray
@@ -166,10 +166,10 @@ void decreasingSort3(int profits[], int profitsKnapsack[], int profitsItem[], in
 		max_idx = i;
 		for (j = i + 1; j < n; j++) {
 
-			int class1 = findClass(profitsItem[j], classes, indexes, r);
-			int class2 = findClass(profitsItem[max_idx], classes, indexes, r);
-			double div1 = (double)profits[j] / ((double)(weights[j] + setups[class1]) / m);
-			double div2 = (double)profits[max_idx] / ((double)(weights[max_idx] + setups[class2]) / m);
+			int class1 = findClass(itemIndexTemp[j], classes, indexes, r);
+			int class2 = findClass(itemIndexTemp[max_idx], classes, indexes, r);
+			double div1 = (double)profitsTemp[j] / ((double)(weightsTemp[j] + setups[class1]) / m);
+			double div2 = (double)profitsTemp[max_idx] / ((double)(weightsTemp[max_idx] + setups[class2]) / m);
 
 			if (div1 > div2)
 				max_idx = j;
@@ -177,15 +177,15 @@ void decreasingSort3(int profits[], int profitsKnapsack[], int profitsItem[], in
 
 		// Swap the found maximum item
 		// with the first item
-		replace(&profits[max_idx], &profits[i]);
-		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
-		replace(&profitsItem[max_idx], &profitsItem[i]);
-		replace(&weights[max_idx], &weights[i]);
+		replace(&profitsTemp[max_idx], &profitsTemp[i]);
+		replace(&itemKnapsackTemp[max_idx], &itemKnapsackTemp[i]);
+		replace(&itemIndexTemp[max_idx], &itemIndexTemp[i]);
+		replace(&weightsTemp[max_idx], &weightsTemp[i]);
 	}
 }
 
 // attribute 4
-void decreasingAttribute4(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int n, int m)
+void decreasingAttribute4(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int n, int m)
 {
 	int i, j, max_idx, max_idx2, max_value, max_value2, max_knapsack;
 
@@ -218,18 +218,18 @@ void decreasingAttribute4(int profits[], int profitsTemp[], int profitsKnapsackT
 
 		profitsTemp[j] = profits[max_idx];
 		weightsTemp[j] = weights[j];
-		profitsItemTemp[j] = j;
-		profitsKnapsackTemp[j] = max_knapsack;
+		itemIndexTemp[j] = j;
+		itemKnapsackTemp[j] = max_knapsack;
 		differenceTemp[j] = profits[max_idx] - profits[max_idx2];
 	}
 
 	// order by decreasing value
-	decreasingSort4(profitsTemp, differenceTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, n);
+	decreasingSort4(profitsTemp, differenceTemp, itemKnapsackTemp, itemIndexTemp, weightsTemp, n);
 
 	free(differenceTemp);
 }
 
-void decreasingSort4(int profits[], int differenceTemp[], int profitsKnapsack[], int profitsItem[], int weights[], int n) {
+void decreasingSort4(int profitsTemp[], int differenceTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int n) {
 	int i, j, max_idx;
 
 	// One by one move boundary of unsorted subarray
@@ -245,16 +245,16 @@ void decreasingSort4(int profits[], int differenceTemp[], int profitsKnapsack[],
 
 		// Swap the found maximum item
 		// with the first item
-		replace(&profits[max_idx], &profits[i]);
+		replace(&profitsTemp[max_idx], &profitsTemp[i]);
 		replace(&differenceTemp[max_idx], &differenceTemp[i]);
-		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
-		replace(&profitsItem[max_idx], &profitsItem[i]);
-		replace(&weights[max_idx], &weights[i]);
+		replace(&itemKnapsackTemp[max_idx], &itemKnapsackTemp[i]);
+		replace(&itemIndexTemp[max_idx], &itemIndexTemp[i]);
+		replace(&weightsTemp[max_idx], &weightsTemp[i]);
 	}
 }
 
 // attribute 5
-void decreasingAttribute5(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r)
+void decreasingAttribute5(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r)
 {
 	int i, j, max_idx, max_knapsack;
 	double max_value;
@@ -282,15 +282,15 @@ void decreasingAttribute5(int profits[], int profitsTemp[], int profitsKnapsackT
 
 		profitsTemp[j] = profits[max_idx];
 		weightsTemp[j] = weights[j];
-		profitsItemTemp[j] = j;
-		profitsKnapsackTemp[j] = max_knapsack;
+		itemIndexTemp[j] = j;
+		itemKnapsackTemp[j] = max_knapsack;
 	} // items
 
 	// order by decreasing value
-	decreasingSort5(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, setups, classes, indexes, n, r);
+	decreasingSort5(profitsTemp, itemKnapsackTemp, itemIndexTemp, weightsTemp, setups, classes, indexes, n, r);
 }
 
-void decreasingSort5(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int r) {
+void decreasingSort5(int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int r) {
 	int i, j, max_idx;
 
 	// One by one move boundary of unsorted subarray
@@ -300,13 +300,13 @@ void decreasingSort5(int profits[], int profitsKnapsack[], int profitsItem[], in
 		max_idx = i;
 		for (j = i + 1; j < n; j++) {
 
-			int class1 = findClass(profitsItem[j], classes, indexes, r);
+			int class1 = findClass(itemIndexTemp[j], classes, indexes, r);
 			int cardinality1 = findCardinalityOfClass(class1, indexes);
-			int class2 = findClass(profitsItem[max_idx], classes, indexes, r);
+			int class2 = findClass(itemIndexTemp[max_idx], classes, indexes, r);
 			int cardinality2 = findCardinalityOfClass(class2, indexes);
 
-			double div1 = (double)profits[j] / ((double)(weights[j] + setups[class1]) / cardinality1);
-			double div2 = (double)profits[max_idx] / ((double)(weights[max_idx] + setups[class2]) / cardinality2);
+			double div1 = (double)profitsTemp[j] / ((double)(weightsTemp[j] + setups[class1]) / cardinality1);
+			double div2 = (double)profitsTemp[max_idx] / ((double)(weightsTemp[max_idx] + setups[class2]) / cardinality2);
 
 			if (div1 > div2)
 				max_idx = j;
@@ -314,15 +314,15 @@ void decreasingSort5(int profits[], int profitsKnapsack[], int profitsItem[], in
 
 		// Swap the found maximum item
 		// with the first item
-		replace(&profits[max_idx], &profits[i]);
-		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
-		replace(&profitsItem[max_idx], &profitsItem[i]);
-		replace(&weights[max_idx], &weights[i]);
+		replace(&profitsTemp[max_idx], &profitsTemp[i]);
+		replace(&itemKnapsackTemp[max_idx], &itemKnapsackTemp[i]);
+		replace(&itemIndexTemp[max_idx], &itemIndexTemp[i]);
+		replace(&weightsTemp[max_idx], &weightsTemp[i]);
 	}
 }
 
 // attribute 6
-void decreasingAttribute6(int profits[], int profitsTemp[], int profitsKnapsackTemp[], int profitsItemTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r)
+void decreasingAttribute6(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int m, int r)
 {
 	int i, j, max_idx, max_knapsack;
 	double max_value;
@@ -338,7 +338,7 @@ void decreasingAttribute6(int profits[], int profitsTemp[], int profitsKnapsackT
 			int class1 = findClass(j, classes, indexes, r);
 			double ro1 = (double)sumAllWeightsOfClass(j, class1, classes, indexes, weights) / sumAllProfitsOfClass(j, class1, classes, indexes, profits, i, n);
 
-			double div1 = (double)profits[j + i * n] / (weights[j] + (double)setups[class1]*ro1);
+			double div1 = (double)profits[j + i * n] / (weights[j] + (double)setups[class1] * ro1);
 
 			if (div1 > max_value) {
 				max_idx = j + i * n;
@@ -350,15 +350,15 @@ void decreasingAttribute6(int profits[], int profitsTemp[], int profitsKnapsackT
 
 		profitsTemp[j] = profits[max_idx];
 		weightsTemp[j] = weights[j];
-		profitsItemTemp[j] = j;
-		profitsKnapsackTemp[j] = max_knapsack;
+		itemIndexTemp[j] = j;
+		itemKnapsackTemp[j] = max_knapsack;
 	} // items
 
 	// order by decreasing value
-	decreasingSort6(profitsTemp, profitsKnapsackTemp, profitsItemTemp, weightsTemp, setups, classes, indexes, n, r);
+	decreasingSort6(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, setups, classes, indexes, n, r);
 }
 
-void decreasingSort6(int profits[], int profitsKnapsack[], int profitsItem[], int weights[], int setups[], int classes[], int indexes[], int n, int r) {
+void decreasingSort6(int profits[], int profitsTemp[], int itemKnapsackTemp[], int itemIndexTemp[], int weights[], int weightsTemp[], int setups[], int classes[], int indexes[], int n, int r) {
 	int i, j, max_idx;
 
 	// One by one move boundary of unsorted subarray
@@ -368,13 +368,13 @@ void decreasingSort6(int profits[], int profitsKnapsack[], int profitsItem[], in
 		max_idx = i;
 		for (j = i + 1; j < n; j++) {
 
-			int class1 = findClass(profitsItem[j], classes, indexes, r);
-			double ro1 = (double)sumAllWeightsOfClass(profitsItem[j], class1, classes, indexes, weights) / sumAllProfitsOfClass(profitsItem[j], class1, classes, indexes, profits, profitsKnapsack[j], n);
-			int class2 = findClass(profitsItem[max_idx], classes, indexes, r);
-			double ro2 = (double)sumAllWeightsOfClass(profitsItem[max_idx], class2, classes, indexes, weights) / sumAllProfitsOfClass(profitsItem[max_idx], class2, classes, indexes, profits, profitsKnapsack[max_idx], n);
+			int class1 = findClass(itemIndexTemp[j], classes, indexes, r);
+			double ro1 = (double)sumAllWeightsOfClass(itemIndexTemp[j], class1, classes, indexes, weights) / sumAllProfitsOfClass(itemIndexTemp[j], class1, classes, indexes, profits, itemKnapsackTemp[j], n);
+			int class2 = findClass(itemIndexTemp[max_idx], classes, indexes, r);
+			double ro2 = (double)sumAllWeightsOfClass(itemIndexTemp[max_idx], class2, classes, indexes, weights) / sumAllProfitsOfClass(itemIndexTemp[max_idx], class2, classes, indexes, profits, itemKnapsackTemp[max_idx], n);
 
-			double div1 = (double)profits[j] / (weights[j] + (double)setups[class1] * ro1);
-			double div2 = (double)profits[max_idx] / (weights[max_idx] + (double)setups[class2] * ro2);
+			double div1 = (double)profitsTemp[j] / (weightsTemp[j] + (double)setups[class1] * ro1);
+			double div2 = (double)profitsTemp[max_idx] / (weightsTemp[max_idx] + (double)setups[class2] * ro2);
 
 			if (div1 > div2)
 				max_idx = j;
@@ -382,10 +382,10 @@ void decreasingSort6(int profits[], int profitsKnapsack[], int profitsItem[], in
 
 		// Swap the found maximum item
 		// with the first item
-		replace(&profits[max_idx], &profits[i]);
-		replace(&profitsKnapsack[max_idx], &profitsKnapsack[i]);
-		replace(&profitsItem[max_idx], &profitsItem[i]);
-		replace(&weights[max_idx], &weights[i]);
+		replace(&profitsTemp[max_idx], &profitsTemp[i]);
+		replace(&itemKnapsackTemp[max_idx], &itemKnapsackTemp[i]);
+		replace(&itemIndexTemp[max_idx], &itemIndexTemp[i]);
+		replace(&weightsTemp[max_idx], &weightsTemp[i]);
 	}
 }
 

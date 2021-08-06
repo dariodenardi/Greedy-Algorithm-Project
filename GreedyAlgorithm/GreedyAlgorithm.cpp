@@ -60,10 +60,10 @@ int main(int argc, char **argv)
 	double *f = (double *)malloc(sizeof(double) * (n * m + m * r)); // array of unassigned/assigned items/setups
 	
 	// temporary array
-	int *profitsKnapsackTemp = (int *)malloc(sizeof(int) * n);
-	int *profitsItemTemp = (int *)malloc(sizeof(int) * n);
-	int *profitsTemp = (int *)malloc(sizeof(int) * n);
-	int *weightsTemp = (int *)malloc(sizeof(int) * n);
+	int *itemKnapsackTemp = (int *)malloc(sizeof(int) * n); // it says what is the knapsack of first, second...n item
+	int *itemIndexTemp = (int *)malloc(sizeof(int) * n); // it says which item is first, second...n
+	int *profitsTemp = (int *)malloc(sizeof(int) * n); // it says what is the profit of the first, second...n item
+	int *weightsTemp = (int *)malloc(sizeof(int) * n); // it says what is the weight of the first, second...n item
 	int *bTemp = (int *)malloc(sizeof(int) * r);
 	int *capacitiesTemp = (int *)malloc(sizeof(int) * m);
 
@@ -88,19 +88,19 @@ int main(int argc, char **argv)
 		}
 
 		if (q[i] == 1)
-			decreasingAttribute1(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
+			decreasingAttribute1(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 2)
-			decreasingAttribute2(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
+			decreasingAttribute2(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 3)
-			decreasingAttribute3(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
+			decreasingAttribute3(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 		else if (q[i] == 4)
-			decreasingAttribute4(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, n, m);
+			decreasingAttribute4(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, n, m);
 		else if (q[i] == 5)
-			decreasingAttribute5(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
+			decreasingAttribute5(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 		else
-			decreasingAttribute6(profits, profitsTemp, profitsKnapsackTemp, profitsItemTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
+			decreasingAttribute6(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 
-		printInstance(n, m, r, weightsTemp, NULL, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
+		//printInstance(n, m, r, weightsTemp, NULL, profitsTemp, itemKnapsackTemp, itemIndexTemp, classes, indexes, NULL, NULL);
 
 		// reset f array
 		for (int j = 0; j < n*m + m * r; j++)
@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 		start = clock();
 
 		// greedy algorithm
-		int result = solve(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, setups, bTemp, f);
+		int result = solve(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, itemKnapsackTemp, itemIndexTemp, classes, indexes, setups, bTemp, f);
 
 		std::cout << "Greedy algorithm: result is " << result << std::endl;
 
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 		//printInstance(n, m, r, weightsTemp, capacitiesTemp, profitsTemp, profitsKnapsackTemp, profitsItemTemp, classes, indexes, NULL, NULL);
 
 		// post-precessing
-		result = solve(result, n, m, r, weights, capacitiesTemp, profits, profitsItemTemp, classes, indexes, setups, bTemp, f);
+		result = solve(result, n, m, r, weights, capacitiesTemp, profits, itemIndexTemp, classes, indexes, setups, bTemp, f);
 
 		std::cout << "Post-precessing: result is " << result << std::endl;
 
@@ -183,8 +183,8 @@ int main(int argc, char **argv)
 	free(indexes);
 	free(q);
 	free(f);
-	free(profitsKnapsackTemp);
-	free(profitsItemTemp);
+	free(itemKnapsackTemp);
+	free(itemIndexTemp);
 	free(profitsTemp);
 	free(weightsTemp);
 	free(bTemp);
