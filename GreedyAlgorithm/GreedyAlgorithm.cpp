@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 		else
 			decreasingAttribute6(profits, profitsTemp, itemKnapsackTemp, itemIndexTemp, weights, weightsTemp, setups, classes, indexes, n, m, r);
 
-		//printInstance(n, m, r, weightsTemp, NULL, profitsTemp, itemKnapsackTemp, itemIndexTemp, classes, indexes, NULL, NULL);
+		printInstance(n, m, r, weightsTemp, NULL, profitsTemp, itemKnapsackTemp, itemIndexTemp, classes, indexes, NULL, NULL);
 
 		// reset f array
 		for (int j = 0; j < n*m + m * r; j++)
