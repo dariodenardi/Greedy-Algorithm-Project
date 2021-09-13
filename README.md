@@ -12,7 +12,6 @@ C/C++ -- Preprocessor:
 ```
 WIN32
 _CONSOLE
-IL_STD
 _CRT_SECURE_NO_WARNINGS
 ```
 
