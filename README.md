@@ -1,5 +1,13 @@
 # Heuristic-Algorithm-Project
 
+## Requirements
+
+* First, you must generate instaces with my other program. See my [project](https://github.com/dariodenardi/GMKP-Project).
+
+## Programs
+
+You can find releases at the top right.
+
 ## Code compilation
 
 * IDE C++ (e.g. Visual Studio)
