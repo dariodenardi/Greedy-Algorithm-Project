@@ -31,7 +31,7 @@ file(GLOB HEADER_FILES include/*.h)
 file(GLOB SOURCE_FILES src/*.cpp)
 
 ######## Set executable file name, and add the source files for it.
-add_executable(Greedy ${HEADER_FILES} ${SOURCE_FILES})
+add_executable(GreedyAlgorithm ${HEADER_FILES} ${SOURCE_FILES})
 
 ####### Create directory
 set(CREATE_DIR_INSTANCES instances)
