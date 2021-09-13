@@ -6,8 +6,8 @@ void addItemInClass(int r, int n, int class_gen, int item, int * indexes, int * 
 int readInstance(char *file_name, int& n, int& m, int& r, int * &weights, int * &capacities, int * &profits, int * &classes, int * &indexes, int * &setups, int * &b) {
 
 	char path[200];
-	strcpy_s(path, "instances/");
-	strcat_s(path, file_name);
+	strcpy(path, "instances/");
+	strcat(path, file_name);
 
 	const char delim = '\t';
 	bool nFind = false;
