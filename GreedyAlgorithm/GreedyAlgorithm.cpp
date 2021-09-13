@@ -14,19 +14,19 @@ int main(int argc, char **argv)
 {
 	if (argc < 3) {
 		std::cout << "invalid parameters!\n";
-		std::cout << "parameters: [nameIstance] [Q]\n";
+		std::cout << "parameters: [nameInstance] [Q]\n";
 		return -1;
 	}
 
 	// input parameters
-	char *istance_name = argv[1];
+	char *instance_name = argv[1];
 	int * q = (int *)malloc(sizeof(int) * (argc - 2));
 
 	for (int i = 0; i < argc - 2; i++)
 		q[i] = strtol(argv[i + 2], NULL, 10);
 
 	std::cout << "Input parameters: " << std::endl;
-	std::cout << "instance name: " << istance_name << std::endl;
+	std::cout << "instance name: " << instance_name << std::endl;
 	for (int i = 0; i < argc - 2; i++)
 		std::cout << "q=" << q[i] << std::endl;
 	std::cout << std::endl;
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	double time;
 
 	// read file
-	int status = readInstance(istance_name, n, m, r, weights, capacities, profits, classes, indexes, setups, b);
+	int status = readInstance(instance_name, n, m, r, weights, capacities, profits, classes, indexes, setups, b);
 	if (status) {
 		std::cout << "File not found or not read correctly" << std::endl;
 		return -3;
