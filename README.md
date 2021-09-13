@@ -4,7 +4,7 @@
 
 * IDE C++ (e.g. Visual Studio)
 
-### Configuration Visual Studio
+### Configuration Visual Studio 2017
 
 Right click on project -- Property
 
