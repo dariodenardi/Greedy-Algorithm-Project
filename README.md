@@ -1,4 +1,4 @@
-# Heuristic-Algorithm-Project
+# Greedy Algorithm
 
 ## Requirements
 
@@ -16,7 +16,7 @@ You can find releases at the top right.
 
 Right click on project -- Property
 
-C/C++ -- Preprocessor:
+C/C++ -- Preprocessor -- Preprocessor definitions:
 ```
 WIN32
 _CONSOLE
