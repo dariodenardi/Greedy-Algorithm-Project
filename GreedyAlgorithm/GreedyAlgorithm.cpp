@@ -31,18 +31,17 @@ int main(int argc, char **argv)
 		std::cout << "q=" << q[i] << std::endl;
 	std::cout << std::endl;
 
-	int num = 25;
 	// data for GMKP instance
 	int n; // number of objects
 	int m; // number of knapsacks
 	int r; // number of subsets
-	int *b = &num; // item can be assign at most to bk knapsacks // num points to somewhere random
-	int *profits = &num; // array for linear profit term
-	int *weights = &num; // array of weights
-	int *capacities = &num; // array of knapsack capacities
-	int *setups = &num; // array of setup
-	int *classes = &num; // array of classes
-	int *indexes = &num; // array of indexes
+	int *b = NULL; // item can be assign at most to bk knapsacks
+	int *profits = NULL; // array for linear profit term
+	int *weights = NULL; // array of weights
+	int *capacities = NULL; // array of knapsack capacities
+	int *setups = NULL; // array of setup
+	int *classes = NULL; // array of classes
+	int *indexes = NULL; // array of indexes
 
 	clock_t start, end;
 	double time;
