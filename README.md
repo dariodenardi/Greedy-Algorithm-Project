@@ -1,5 +1,7 @@
 # Greedy Algorithm
 
+Implementation of a Greedy Algorithm for GMKP problem in C++
+
 ## Requirements
 
 * First, you must generate instaces with my other program. See my [project](https://github.com/dariodenardi/GMKP-Project).
